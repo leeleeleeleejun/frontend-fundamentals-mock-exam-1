@@ -1,13 +1,13 @@
 import { Tab } from 'tosslib';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { SavingResultTabsList, SAVINGS_RESULT_TABS, type SavingsResultTab } from './consts.ts';
-import { useSavingsProductQueries } from '@/apis/queries/savingsProduct.ts';
+import { SavingResultTabsList, SAVINGS_RESULT_TABS, type SavingsResultTab } from '../../constants.ts';
+import { useSavingsProductQueries } from '@/domains/SavingsCalculator/apis/queries/savingsProduct.ts';
 import { useTab } from '@/hooks/useTab.ts';
-import { Products } from './Products';
+import { Products } from './Products.tsx';
 import { Results } from './Results.tsx';
 
 export const ResultSection = () => {
-  const { data } = useSuspenseQuery(useSavingsProductQueries.list());
+  const { data: savingsProducts } = useSuspenseQuery(useSavingsProductQueries.list());
   const { currentTab, changeTab, TabPanel } = useTab<SavingsResultTab>(SAVINGS_RESULT_TABS);
 
   return (
@@ -20,7 +20,7 @@ export const ResultSection = () => {
         ))}
       </Tab>
       <TabPanel value={'products'}>
-        <Products />
+        <Products savingsProducts={savingsProducts} />
       </TabPanel>
       <TabPanel value={'results'}>
         <Results />

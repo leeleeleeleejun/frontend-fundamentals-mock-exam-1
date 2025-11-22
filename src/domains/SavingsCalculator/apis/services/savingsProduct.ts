@@ -1,6 +1,6 @@
 import { handleApiError } from '@/apis/handleApiError.ts';
 import { http } from 'tosslib';
-import { SavingsProduct, SavingsProductSchema } from '@/apis/schemas/savingsProduct.ts';
+import { type SavingsProduct, SavingsProductSchema } from '../schemas/savingsProduct.ts';
 
 export const getSavingsProducts = async () =>
   handleApiError(async () => {

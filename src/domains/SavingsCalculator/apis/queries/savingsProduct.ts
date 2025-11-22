@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query';
-import { getSavingsProducts } from '@/apis/services/savingsProduct';
+import { getSavingsProducts } from '../services/savingsProduct.ts';
 
 export const SavingsProductQueryKeys = {
   all: () => ['savingProducts'] as const,
