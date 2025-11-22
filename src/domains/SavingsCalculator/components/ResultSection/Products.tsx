@@ -1,16 +1,30 @@
-import { Assets, colors, ListRow } from 'tosslib';
+import { Assets, colors, Flex, ListRow, Text } from 'tosslib';
 import { formatCurrency } from '@/utils/formatCurrency.ts';
 import type { SavingsProduct } from '../../apis/schemas/savingsProduct.ts';
+import type { Dispatch, SetStateAction } from 'react';
 
-type Props = { savingsProducts: SavingsProduct[] };
+type Props = {
+  savingsProducts: SavingsProduct[];
+  selectedProductId: string | null;
+  setSelectedProductId: Dispatch<SetStateAction<string | null>>;
+};
 
-export const Products = ({ savingsProducts }: Props) => {
+export const Products = ({ savingsProducts, selectedProductId, setSelectedProductId }: Props) => {
+  if (savingsProducts.length === 0) {
+    return (
+      <Flex justifyContent="center" style={{ margin: '20px 0' }}>
+        <Text color={'gray'}>조건에 맞는 적금 상품이 존재하지 않습니다</Text>
+      </Flex>
+    );
+  }
+
   return (
     <>
       {savingsProducts.map(product => {
         const { id, name, annualRate, minMonthlyAmount, maxMonthlyAmount, availableTerms } = product;
         const formatMinMonthlyAmount = formatCurrency(minMonthlyAmount);
         const formatMaxMonthlyAmount = formatCurrency(maxMonthlyAmount);
+        const isSelected = id === selectedProductId;
 
         return (
           <ListRow
@@ -26,8 +40,14 @@ export const Products = ({ savingsProducts }: Props) => {
                 bottomProps={{ fontSize: 13, color: colors.grey600 }}
               />
             }
-            right={<Assets.Icon name="icon-check-circle-green" />}
-            onClick={() => {}}
+            right={isSelected && <Assets.Icon name="icon-check-circle-green" />}
+            onClick={() => {
+              if (isSelected) {
+                setSelectedProductId(null);
+              } else {
+                setSelectedProductId(id);
+              }
+            }}
           />
         );
       })}
