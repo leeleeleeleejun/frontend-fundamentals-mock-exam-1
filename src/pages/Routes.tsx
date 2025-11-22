@@ -1,5 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { SavingsCalculatorPage } from './SavingsCalculatorPage';
+import { ErrorBoundary } from '@suspensive/react';
+import ErrorPage from '@/pages/ErrorPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -13,5 +15,9 @@ const router = createBrowserRouter([
 ]);
 
 export function Routes() {
-  return <RouterProvider router={router} />;
+  return (
+    <ErrorBoundary fallback={<ErrorPage />}>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  );
 }
