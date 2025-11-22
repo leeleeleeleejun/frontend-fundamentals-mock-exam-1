@@ -5,5 +5,5 @@ export const SAVINGS_RESULT_TABS = {
 export type SavingsResultTab = keyof typeof SAVINGS_RESULT_TABS;
 export const SavingResultTabsList = Object.keys(SAVINGS_RESULT_TABS) as SavingsResultTab[];
 
-export const AVAILABLE_TERMS_OPTION = [6, 12, 24] as const;
+export const AVAILABLE_TERMS_OPTION = [6, 12, 18, 24] as const;
 export type AvailableTermsOption = (typeof AVAILABLE_TERMS_OPTION)[number];
