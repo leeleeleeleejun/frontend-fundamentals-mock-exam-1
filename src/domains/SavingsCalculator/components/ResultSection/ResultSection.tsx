@@ -1,14 +1,22 @@
 import { Tab } from 'tosslib';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { SavingResultTabsList, SAVINGS_RESULT_TABS, type SavingsResultTab } from '../../constants.ts';
-import { useSavingsProductQueries } from '@/domains/SavingsCalculator/apis/queries/savingsProduct.ts';
+import { useSavingsProductQueries } from '../../apis/queries/savingsProduct.ts';
+import type { SavingsFilters } from '../../type.ts';
 import { useTab } from '@/hooks/useTab.ts';
 import { Products } from './Products.tsx';
 import { Results } from './Results.tsx';
+import { isEligibleProduct } from '../../utils/isEligibleProduct.ts';
 
-export const ResultSection = () => {
-  const { data: savingsProducts } = useSuspenseQuery(useSavingsProductQueries.list());
+type Props = {
+  filters: SavingsFilters;
+};
+
+export const ResultSection = ({ filters }: Props) => {
+  const { data: savingsProducts = [] } = useSuspenseQuery(useSavingsProductQueries.list());
   const { currentTab, changeTab, TabPanel } = useTab<SavingsResultTab>(SAVINGS_RESULT_TABS);
+  const eligibleProducts = savingsProducts.filter(product => isEligibleProduct(filters, product));
+  const productsToDisplay = eligibleProducts.length > 0 ? eligibleProducts : savingsProducts;
 
   return (
     <>
@@ -20,7 +28,7 @@ export const ResultSection = () => {
         ))}
       </Tab>
       <TabPanel value={'products'}>
-        <Products savingsProducts={savingsProducts} />
+        <Products savingsProducts={productsToDisplay} />
       </TabPanel>
       <TabPanel value={'results'}>
         <Results />

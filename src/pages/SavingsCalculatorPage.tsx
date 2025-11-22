@@ -24,7 +24,7 @@ export function SavingsCalculatorPage() {
       <Border height={16} />
       <Spacing size={8} />
       <Suspense fallback={null}>
-        <ResultSection />
+        <ResultSection filters={filters} />
       </Suspense>
     </>
   );
