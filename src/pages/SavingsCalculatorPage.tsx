@@ -1,5 +1,6 @@
 import { Border, NavigationBar, Spacing } from 'tosslib';
 import { InputSection, ResultSection } from '@components/SavingsCalculatorPage';
+import { Suspense } from '@suspensive/react';
 
 export function SavingsCalculatorPage() {
   return (
@@ -10,7 +11,9 @@ export function SavingsCalculatorPage() {
       <Spacing size={24} />
       <Border height={16} />
       <Spacing size={8} />
-      <ResultSection />
+      <Suspense fallback={null}>
+        <ResultSection />
+      </Suspense>
     </>
   );
 }
